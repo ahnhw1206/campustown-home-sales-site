@@ -67,9 +67,14 @@
     <section class="card" aria-live="polite">
       <p id="status" class="status">Loading sales data&hellip;</p>
       <table id="price-table" hidden>
-        <caption class="visually-hidden">Median sale price by city</caption>
+        <caption class="visually-hidden">Cities ranked by median sale price</caption>
         <thead>
-          <tr><th scope="col">City</th><th scope="col">Median sale price</th></tr>
+          <tr>
+            <th scope="col">Rank</th>
+            <th scope="col">City</th>
+            <th scope="col">Median sale price</th>
+            <th scope="col">Sales included</th>
+          </tr>
         </thead>
         <tbody></tbody>
       </table>
@@ -155,14 +160,24 @@
         });
 
         [...byCity.entries()]
-          .sort(([cityA], [cityB]) => cityA.localeCompare(cityB))
-          .forEach(([city, prices]) => {
+          .map(([city, prices]) => ({
+            city,
+            medianPrice: median(prices),
+            salesIncluded: prices.length
+          }))
+          .sort((a, b) => b.medianPrice - a.medianPrice ||
+            a.city.localeCompare(b.city))
+          .forEach(({ city, medianPrice, salesIncluded }, index) => {
             const row = document.createElement("tr");
+            const rankCell = document.createElement("td");
             const cityCell = document.createElement("td");
             const priceCell = document.createElement("td");
+            const salesCell = document.createElement("td");
+            rankCell.textContent = index + 1;
             cityCell.textContent = city;
-            priceCell.textContent = formatCurrency(median(prices));
-            row.append(cityCell, priceCell);
+            priceCell.textContent = formatCurrency(medianPrice);
+            salesCell.textContent = salesIncluded.toLocaleString("en-US");
+            row.append(rankCell, cityCell, priceCell, salesCell);
             body.append(row);
           });
 
