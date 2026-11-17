@@ -26,6 +26,13 @@
     h1 { margin: 0 0 0.5rem; color: #102a43; }
     .intro { max-width: 42rem; margin: 0; color: #245c5b; }
     .summary { margin: 1rem 0 0; color: #245c5b; }
+    .price-rule {
+      margin: 1rem 0 0;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      background: #fff3b0;
+      color: #6b4f00;
+    }
     .table-title {
       margin: 0;
       padding: 1rem 1rem 0;
@@ -83,9 +90,13 @@
       <strong id="city-count"></strong> cities &middot;
       <strong id="sales-count"></strong> qualifying sales
     </p>
+    <p class="price-rule">
+      Price Rule: Sales under $100,000 are excluded. The median for each city is calculated
+      from the remaining sale prices.
+    </p>
     <section class="card" aria-live="polite">
       <p id="status" class="status">Loading sales data&hellip;</p>
-      <h2 class="table-title" hidden>median home sale prices by city</h2>
+      <h2 class="table-title" hidden>Median home sale prices by city</h2>
       <table id="price-table" hidden>
         <caption class="visually-hidden">Cities ranked by median sale price</caption>
         <thead>
@@ -177,7 +188,7 @@
 
         sales.forEach((sale) => {
           const price = Number(sale.sale_price);
-          if (!Number.isFinite(price) || price < 10000) return;
+          if (!Number.isFinite(price) || price < 100000) return;
           const key = `${sale.city}, ${sale.state}`;
           if (!byCity.has(key)) byCity.set(key, []);
           byCity.get(key).push(price);
