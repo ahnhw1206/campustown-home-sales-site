@@ -18,8 +18,13 @@
       padding: 3rem 1.25rem;
       line-height: 1.5;
     }
-    h1 { margin-bottom: 0.5rem; color: #102a43; }
-    .intro { max-width: 42rem; color: #486581; }
+    .intro-panel {
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      background: #b8f2e6;
+    }
+    h1 { margin: 0 0 0.5rem; color: #102a43; }
+    .intro { max-width: 42rem; margin: 0; color: #245c5b; }
     .table-title {
       margin: 0;
       padding: 1rem 1rem 0;
@@ -66,11 +71,13 @@
 </head>
 <body>
   <main>
-    <h1>How much homes sold for in each city</h1>
-    <p class="intro">
-      Typical completed sale prices in the College-town home sales dataset. Sales under
-      $10,000 are excluded because the data description identifies them as implausible.
-    </p>
+    <div class="intro-panel">
+      <h1>How much homes sold for in each city</h1>
+      <p class="intro">
+        Compare typical sales prices across the towns in the dataset. Cities are ranked by
+        median sale price, highest to lowest
+      </p>
+    </div>
     <section class="card" aria-live="polite">
       <p id="status" class="status">Loading sales data&hellip;</p>
       <h2 class="table-title" hidden>median home sale prices by city</h2>
